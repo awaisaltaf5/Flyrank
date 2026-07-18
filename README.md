@@ -143,4 +143,4 @@ Frontend Engineering Intern — FlyRank AI
 
 ## License
 
-This repository is for educational and internship purposes.
+This project is licensed under the [MIT License](LICENSE).
