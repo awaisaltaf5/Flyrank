@@ -1,5 +1,10 @@
 # FlyRank AI — Frontend Engineering Internship
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+
 A structured learning repository for the **FlyRank AI Frontend Engineering Internship**. This repository documents weekly assignments, projects, exercises, and progress throughout the internship program.
 
 ---
