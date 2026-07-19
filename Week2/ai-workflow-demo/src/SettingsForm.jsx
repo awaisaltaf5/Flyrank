@@ -1,88 +1,60 @@
-import { useState, useCallback } from 'react'
-
-const validators = {
-  username: (value) => {
-    if (!value.trim()) return 'Username is required'
-    if (value.trim().length < 3) return 'Username must be at least 3 characters'
-    if (value.trim().length > 20) return 'Username must be at most 20 characters'
-    if (!/^[a-zA-Z0-9_]+$/.test(value.trim())) return 'Username can only contain letters, numbers, and underscores'
-    return ''
-  },
-  email: (value) => {
-    if (!value.trim()) return 'Email is required'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return 'Please enter a valid email address'
-    return ''
-  },
-  password: (value) => {
-    if (!value) return 'Password is required'
-    if (value.length < 8) return 'Password must be at least 8 characters'
-    if (!/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter'
-    if (!/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter'
-    if (!/[0-9]/.test(value)) return 'Password must contain at least one number'
-    return ''
-  },
-  confirmPassword: (value, formData) => {
-    if (!value) return 'Please confirm your password'
-    if (value !== formData.password) return 'Passwords do not match'
-    return ''
-  },
-  age: (value) => {
-    if (!value) return 'Age is required'
-    const num = Number(value)
-    if (isNaN(num) || !Number.isInteger(num)) return 'Age must be a whole number'
-    if (num < 13) return 'You must be at least 13 years old'
-    if (num > 120) return 'Please enter a valid age'
-    return ''
-  },
-  website: (value) => {
-    if (!value.trim()) return ''
-    try {
-      new URL(value.trim().startsWith('http') ? value.trim() : `https://${value.trim()}`)
-      return ''
-    } catch {
-      return 'Please enter a valid URL'
-    }
-  },
-  bio: (value) => {
-    if (value.length > 500) return 'Bio must be at most 500 characters'
-    return ''
-  },
-}
+import { useState, useCallback, useMemo } from 'react'
+import {
+  validateFullName,
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+  validateTheme,
+  validateAll,
+  hasErrors,
+} from './utils/validation'
 
 const initialFormData = {
-  username: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: '',
-  age: '',
-  website: '',
-  bio: '',
   theme: 'light',
-  notifications: true,
 }
 
-const initialErrors = {
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  age: '',
-  website: '',
-  bio: '',
+const initialTouched = {
+  fullName: false,
+  email: false,
+  password: false,
+  confirmPassword: false,
+  theme: false,
+}
+
+const fieldValidators = {
+  fullName: validateFullName,
+  email: validateEmail,
+  password: validatePassword,
+  confirmPassword: validateConfirmPassword,
+  theme: validateTheme,
 }
 
 function SettingsForm() {
   const [formData, setFormData] = useState(initialFormData)
-  const [errors, setErrors] = useState(initialErrors)
-  const [touched, setTouched] = useState({})
+  const [errors, setErrors] = useState({})
+  const [touched, setTouched] = useState(initialTouched)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null) // 'success' | 'error' | null
 
+  // Validate a single field
   const validateField = useCallback((name, value, allData) => {
-    const validator = validators[name]
+    const validator = fieldValidators[name]
     if (!validator) return ''
-    return validator(value, allData)
+    if (name === 'confirmPassword') {
+      return validator(value, allData)
+    }
+    return validator(value)
   }, [])
+
+  // Compute whether form is valid to enable submit
+  const isValid = useMemo(() => {
+    const currentErrors = validateAll(formData)
+    return !hasErrors(currentErrors)
+  }, [formData])
 
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target
@@ -92,34 +64,47 @@ function SettingsForm() {
       const updated = { ...prev, [name]: newValue }
 
       // Clear submit status on any change
-      if (submitStatus) setSubmitStatus(null)
+      setSubmitStatus(null)
 
       // Validate the changed field
       const error = validateField(name, newValue, updated)
-      setErrors((prev) => ({ ...prev, [name]: error }))
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
 
-      // If confirmPassword changed or password changed, re-validate confirmPassword
+      // If confirmPassword or password changed, re-validate confirmPassword
       if ((name === 'password' || name === 'confirmPassword') && touched.confirmPassword) {
-        const confirmError = validateField('confirmPassword', updated.confirmPassword, updated)
-        setErrors((prev) => ({ ...prev, confirmPassword: confirmError }))
+        const confirmError = validateField(
+          'confirmPassword',
+          updated.confirmPassword,
+          updated,
+        )
+        setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: confirmError }))
+      }
+
+      // If theme changed, validate it
+      if (name === 'theme') {
+        const themeError = validateField('theme', newValue, updated)
+        setErrors((prevErrors) => ({ ...prevErrors, theme: themeError }))
       }
 
       return updated
     })
-  }, [validateField, submitStatus, touched.confirmPassword])
+  }, [validateField, touched.confirmPassword])
 
   const handleBlur = useCallback((e) => {
     const { name } = e.target
     setTouched((prev) => ({ ...prev, [name]: true }))
 
-    // Validate on blur
     setFormData((prev) => {
       const error = validateField(name, prev[name], prev)
       setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
 
-      // If confirmPassword blurred, validate it
+      // Re-validate confirmPassword when password or confirmPassword loses focus
       if (name === 'confirmPassword' || name === 'password') {
-        const confirmError = validateField('confirmPassword', prev.confirmPassword, prev)
+        const confirmError = validateField(
+          'confirmPassword',
+          prev.confirmPassword,
+          prev,
+        )
         setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: confirmError }))
       }
 
@@ -127,71 +112,71 @@ function SettingsForm() {
     })
   }, [validateField])
 
-  const validateAll = useCallback((data) => {
-    const newErrors = {}
-    let isValid = true
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault()
+      setIsSubmitting(true)
+      setSubmitStatus(null)
 
-    for (const field of Object.keys(initialErrors)) {
-      const error = validateField(field, data[field], data)
-      newErrors[field] = error
-      if (error) isValid = false
-    }
+      // Mark all fields as touched
+      setTouched({
+        fullName: true,
+        email: true,
+        password: true,
+        confirmPassword: true,
+        theme: true,
+      })
 
-    setErrors(newErrors)
-    setTouched(
-      Object.keys(initialErrors).reduce((acc, key) => ({ ...acc, [key]: true }), {})
-    )
+      // Full validation
+      const allErrors = validateAll(formData)
+      setErrors(allErrors)
 
-    return isValid
-  }, [validateField])
+      if (hasErrors(allErrors)) {
+        setIsSubmitting(false)
+        return
+      }
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus(null)
-
-    if (!validateAll(formData)) {
-      setIsSubmitting(false)
-      return
-    }
-
-    // Simulate API call
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      setSubmitStatus('success')
-      setFormData(initialFormData)
-      setTouched({})
-      setErrors(initialErrors)
-    } catch {
-      setSubmitStatus('error')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }, [formData, validateAll])
+      // Simulate API call
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+        setSubmitStatus('success')
+        setFormData(initialFormData)
+        setTouched(initialTouched)
+        setErrors({})
+      } catch {
+        setSubmitStatus('error')
+      } finally {
+        setIsSubmitting(false)
+      }
+    },
+    [formData],
+  )
 
   const handleReset = useCallback(() => {
     setFormData(initialFormData)
-    setErrors(initialErrors)
-    setTouched({})
+    setErrors({})
+    setTouched(initialTouched)
     setSubmitStatus(null)
   }, [])
 
   const getFieldClass = (fieldName) => {
     const base = 'settings-field'
     if (touched[fieldName]) {
-      return errors[fieldName] ? `${base} settings-field--invalid` : `${base} settings-field--valid`
+      return errors[fieldName]
+        ? `${base} settings-field--invalid`
+        : `${base} settings-field--valid`
     }
     return base
   }
 
   return (
     <form className="settings-form" onSubmit={handleSubmit} noValidate>
-      <h2 className="settings-title">Account Settings</h2>
-      <p className="settings-subtitle">Manage your account preferences and security</p>
+      <h1 className="settings-title">Settings</h1>
+      <p className="settings-subtitle">Manage your account settings</p>
 
       {submitStatus === 'success' && (
-        <div className="settings-alert settings-alert--success">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <div className="settings-alert settings-alert--success" role="status">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-1 15l-5-5 1.41-1.41L9 12.17l6.59-6.59L17 7l-8 8z" fill="currentColor"/>
           </svg>
           <span>Settings saved successfully!</span>
@@ -199,8 +184,8 @@ function SettingsForm() {
       )}
 
       {submitStatus === 'error' && (
-        <div className="settings-alert settings-alert--error">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <div className="settings-alert settings-alert--error" role="alert">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm1 15H9v-2h2v2zm0-4H9V5h2v6z" fill="currentColor"/>
           </svg>
           <span>Failed to save settings. Please try again.</span>
@@ -210,33 +195,33 @@ function SettingsForm() {
       <fieldset className="settings-fieldset">
         <legend className="settings-legend">Profile Information</legend>
 
-        <div className={getFieldClass('username')}>
-          <label htmlFor="username" className="settings-label">
-            Username <span className="required">*</span>
+        <div className={getFieldClass('fullName')}>
+          <label htmlFor="fullName" className="settings-label">
+            Full Name <span className="required" aria-hidden="true">*</span>
           </label>
           <input
-            id="username"
-            name="username"
+            id="fullName"
+            name="fullName"
             type="text"
             className="settings-input"
-            placeholder="Enter your username"
-            value={formData.username}
+            placeholder="Enter your full name"
+            value={formData.fullName}
             onChange={handleChange}
             onBlur={handleBlur}
-            aria-invalid={touched.username && !!errors.username}
-            aria-describedby={errors.username ? 'username-error' : undefined}
+            aria-required="true"
+            aria-invalid={touched.fullName && !!errors.fullName}
+            aria-describedby={errors.fullName ? 'fullName-error' : undefined}
           />
-          {touched.username && errors.username && (
-            <p id="username-error" className="settings-error" role="alert">
-              {errors.username}
+          {touched.fullName && errors.fullName && (
+            <p id="fullName-error" className="settings-error" role="alert">
+              {errors.fullName}
             </p>
           )}
-          <p className="settings-hint">3-20 characters, letters, numbers, and underscores only</p>
         </div>
 
         <div className={getFieldClass('email')}>
           <label htmlFor="email" className="settings-label">
-            Email <span className="required">*</span>
+            Email <span className="required" aria-hidden="true">*</span>
           </label>
           <input
             id="email"
@@ -247,6 +232,7 @@ function SettingsForm() {
             value={formData.email}
             onChange={handleChange}
             onBlur={handleBlur}
+            aria-required="true"
             aria-invalid={touched.email && !!errors.email}
             aria-describedby={errors.email ? 'email-error' : undefined}
           />
@@ -256,74 +242,6 @@ function SettingsForm() {
             </p>
           )}
         </div>
-
-        <div className={getFieldClass('age')}>
-          <label htmlFor="age" className="settings-label">
-            Age <span className="required">*</span>
-          </label>
-          <input
-            id="age"
-            name="age"
-            type="number"
-            className="settings-input"
-            placeholder="Enter your age"
-            min="13"
-            max="120"
-            value={formData.age}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            aria-invalid={touched.age && !!errors.age}
-            aria-describedby={errors.age ? 'age-error' : undefined}
-          />
-          {touched.age && errors.age && (
-            <p id="age-error" className="settings-error" role="alert">
-              {errors.age}
-            </p>
-          )}
-        </div>
-
-        <div className={getFieldClass('website')}>
-          <label htmlFor="website" className="settings-label">Website</label>
-          <input
-            id="website"
-            name="website"
-            type="url"
-            className="settings-input"
-            placeholder="https://example.com"
-            value={formData.website}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            aria-invalid={touched.website && !!errors.website}
-            aria-describedby={errors.website ? 'website-error' : undefined}
-          />
-          {touched.website && errors.website && (
-            <p id="website-error" className="settings-error" role="alert">
-              {errors.website}
-            </p>
-          )}
-        </div>
-
-        <div className={getFieldClass('bio')}>
-          <label htmlFor="bio" className="settings-label">Bio</label>
-          <textarea
-            id="bio"
-            name="bio"
-            className="settings-input settings-textarea"
-            placeholder="Tell us about yourself..."
-            rows="4"
-            value={formData.bio}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            aria-invalid={touched.bio && !!errors.bio}
-            aria-describedby={errors.bio ? 'bio-error' : undefined}
-          />
-          {touched.bio && errors.bio && (
-            <p id="bio-error" className="settings-error" role="alert">
-              {errors.bio}
-            </p>
-          )}
-          <p className="settings-hint">{formData.bio.length}/500 characters</p>
-        </div>
       </fieldset>
 
       <fieldset className="settings-fieldset">
@@ -331,7 +249,7 @@ function SettingsForm() {
 
         <div className={getFieldClass('password')}>
           <label htmlFor="password" className="settings-label">
-            Password <span className="required">*</span>
+            Password <span className="required" aria-hidden="true">*</span>
           </label>
           <input
             id="password"
@@ -342,6 +260,7 @@ function SettingsForm() {
             value={formData.password}
             onChange={handleChange}
             onBlur={handleBlur}
+            aria-required="true"
             aria-invalid={touched.password && !!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
           />
@@ -350,12 +269,12 @@ function SettingsForm() {
               {errors.password}
             </p>
           )}
-          <p className="settings-hint">At least 8 characters with uppercase, lowercase, and a number</p>
+          <p className="settings-hint">Must be at least 8 characters</p>
         </div>
 
         <div className={getFieldClass('confirmPassword')}>
           <label htmlFor="confirmPassword" className="settings-label">
-            Confirm Password <span className="required">*</span>
+            Confirm Password <span className="required" aria-hidden="true">*</span>
           </label>
           <input
             id="confirmPassword"
@@ -366,6 +285,7 @@ function SettingsForm() {
             value={formData.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
+            aria-required="true"
             aria-invalid={touched.confirmPassword && !!errors.confirmPassword}
             aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
           />
@@ -381,38 +301,29 @@ function SettingsForm() {
         <legend className="settings-legend">Preferences</legend>
 
         <div className="settings-field">
-          <label htmlFor="theme" className="settings-label">Theme</label>
+          <label htmlFor="theme" className="settings-label">
+            Theme <span className="required" aria-hidden="true">*</span>
+          </label>
           <select
             id="theme"
             name="theme"
             className="settings-input settings-select"
             value={formData.theme}
             onChange={handleChange}
+            onBlur={handleBlur}
+            aria-required="true"
+            aria-invalid={touched.theme && !!errors.theme}
+            aria-describedby={errors.theme ? 'theme-error' : undefined}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
             <option value="system">System</option>
           </select>
-        </div>
-
-        <div className="settings-field settings-field--checkbox">
-          <label className="settings-checkbox-label">
-            <input
-              name="notifications"
-              type="checkbox"
-              className="settings-checkbox"
-              checked={formData.notifications}
-              onChange={handleChange}
-            />
-            <span className="settings-checkbox-custom">
-              {formData.notifications && (
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
-            </span>
-            <span className="settings-checkbox-text">Enable email notifications</span>
-          </label>
+          {touched.theme && errors.theme && (
+            <p id="theme-error" className="settings-error" role="alert">
+              {errors.theme}
+            </p>
+          )}
         </div>
       </fieldset>
 
@@ -420,11 +331,12 @@ function SettingsForm() {
         <button
           type="submit"
           className="settings-btn settings-btn--primary"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isValid}
+          aria-busy={isSubmitting}
         >
           {isSubmitting ? (
             <>
-              <span className="settings-spinner"></span>
+              <span className="settings-spinner" aria-hidden="true"></span>
               Saving...
             </>
           ) : (
