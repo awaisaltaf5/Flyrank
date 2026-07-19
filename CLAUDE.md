@@ -191,3 +191,17 @@ npm run preview # Preview production build
 ## Summary
 
 Write **simple, functional, reusable React code** in a **clean folder structure**, use the defined **tech stack**, follow **Conventional Commits**, **explain changes before editing**, and keep everything **beginner friendly**.
+
+---
+
+## Project Rules
+
+1. **Always use controlled React form inputs.** — Form fields should be bound to `value` and `onChange` handlers, never uncontrolled `ref` or DOM queries.
+
+2. **Every form must include validation before submission.** — Validate on blur for inline feedback, and perform full validation on submit. Disable the submit button until all fields are valid.
+
+3. **Use semantic HTML with labels for accessibility.** — Every input needs a `<label>` with `htmlFor`, set `aria-required`, `aria-invalid`, and `aria-describedby` for error messages.
+
+4. **Run tests before considering a feature complete.** — Use vitest + React Testing Library. Test validation utilities in isolation and component behavior (render, user interaction, error states, submission).
+
+5. **Components should be reusable and avoid duplicated logic.** — Extract validation into separate utility files. Keep components focused on a single responsibility. Use composition over large monolithic components.
