@@ -1,17 +1,17 @@
-# FlyRank AI — Frontend Engineering Internship
+# Frontend Engineering Internship
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-A structured learning repository for the **FlyRank AI Frontend Engineering Internship**. This repository documents weekly assignments, projects, exercises, and progress throughout the internship program.
+A structured learning repository for a **Frontend Engineering Internship**. This repository documents weekly assignments, projects, exercises, and progress throughout the internship program.
 
 ---
 
 ## Repository Overview
 
-This repository serves as a central hub for all frontend engineering work completed during the FlyRank AI internship. Work is organized chronologically by week, making it easy to track learning progression, review past assignments, and showcase completed projects.
+This repository serves as a central hub for all frontend engineering work completed during the internship. Work is organized chronologically by week, making it easy to track learning progression, review past assignments, and showcase completed projects.
 
 Each week folder contains self-contained work including:
 
@@ -142,7 +142,7 @@ Each week follows the same internal structure for consistency:
 ## Author
 
 **Awais Altaf**  
-Frontend Engineering Intern — FlyRank AI
+Frontend Engineering Intern
 
 ---
 
