@@ -221,6 +221,8 @@ npm run lint     # Run ESLint
 ```
 
 ## 📸 Screenshots
+<img width="959" height="475" alt="1" src="https://github.com/user-attachments/assets/95621c0b-6590-46bb-ba9f-a7e7aed1f862" />
+
 
 ### Dark Mode
 - Deep slate background with gradient orbs
