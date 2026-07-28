@@ -9,7 +9,7 @@ A modern, premium AI chat application with a sleek dark/light mode interface, bu
 
 ## 🎯 Live Demo
 
-**Production URL**: https://ai-chat-made-by-awais-icnswxb5a-muhammad-awais-altafs-projects.vercel.app/
+**Production URL**: [https://ai-chat-made-by-awais-icnswxb5a-muhammad-awais-altafs-projects.vercel.app/](https://ai-chat-made-by-awais.vercel.app/)
 
 ## ✨ Features
 
@@ -260,7 +260,7 @@ This project is part of the Flyrank internship program.
 
 ## 🔗 Links
 
-- **Live Demo**: https://ai-chat-made-by-awais-icnswxb5a-muhammad-awais-altafs-projects.vercel.app/
+- **Live Demo**: [https://ai-chat-made-by-awais-icnswxb5a-muhammad-awais-altafs-projects.vercel.app/](https://ai-chat-made-by-awais.vercel.app/)
 - **GitHub Repository**: https://github.com/awaisaltaf5/Flyrank
 
 ---
