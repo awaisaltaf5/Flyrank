@@ -76,9 +76,12 @@ The extracted metadata is summarized by the AI and presented inside an elegant c
 # 📸 Screenshots
 
 Dekstop view:
+
 <img width="953" height="475" alt="image" src="https://github.com/user-attachments/assets/ce947d67-81c1-4869-880f-f0c37926ce06" />
 
+
 Mobile View:
+
 <img width="702" height="1600" alt="WhatsApp Image 2026-08-01 at 2 40 59 AM" src="https://github.com/user-attachments/assets/60c13a16-e406-4941-b17e-4ecc1b168160" />
 
 
