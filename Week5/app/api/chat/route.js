@@ -7,6 +7,7 @@ import {
   FREE_MODELS,
 } from "@/lib/ai";
 import { tools } from "@/lib/tools";
+import { categorizeError, getFriendlyErrorMessage } from "@/lib/error-utils";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -27,137 +28,145 @@ If the tool returns an error, explain what went wrong and suggest possible fixes
 If the user asks a general question (not about analyzing a website), answer
 helpfully and concisely.`;
 
+/**
+ * Build a sanitised JSON error response so that internal details, API keys,
+ * and stack traces are NEVER sent to the client.
+ */
+function jsonErrorResponse(message, status = 500, code = "unknown") {
+  return new Response(JSON.stringify({ error: message, code }), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 export async function POST(req) {
-  const body = await req.json();
-  const messages = body.messages;
-
-  // Validate that messages is an array.
-  if (!Array.isArray(messages)) {
-    return new Response(
-      JSON.stringify({
-        error: "Invalid request: messages must be an array.",
-      }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-
-  // Convert UI messages to model messages for the AI SDK v7.
-  let modelMessages;
   try {
-    modelMessages = await convertToModelMessages(messages);
-  } catch (error) {
-    console.error("convertToModelMessages error:", error);
-    return new Response(
-      JSON.stringify({
-        error: `Failed to process messages: ${error.message}`,
-      }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+    const body = await req.json();
+    const messages = body.messages;
 
-  // Ensure modelMessages is an array.
-  if (!Array.isArray(modelMessages)) {
-    modelMessages = [];
-  }
-
-  // Reset to the first free model at the start of each request.
-  resetModel();
-
-  // ── Find a working free model ───────────────────────────────────────────
-  // We test each model with a minimal generateText call. If the model is
-  // unavailable, the call fails immediately and we try the next one.
-  let workingModel = null;
-  let workingModelId = null;
-
-  for (let attempt = 0; attempt < FREE_MODELS.length; attempt++) {
-    const modelId = getCurrentModelId();
-    const model = getCurrentModel();
-
-    try {
-      // Quick availability check with a minimal prompt.
-      await generateText({
-        model,
-        prompt: "Say OK",
-        maxOutputTokens: 5,
-      });
-      workingModel = model;
-      workingModelId = modelId;
-      console.log(`[Model: ${modelId}] available, starting stream...`);
-      break;
-    } catch (error) {
-      console.error(
-        `[Model: ${modelId}] unavailable:`,
-        error?.message || "Unknown error",
+    // ── Validate messages ──────────────────────────────────────────────────
+    if (!Array.isArray(messages) || messages.length === 0) {
+      console.warn("POST /api/chat: missing or empty messages array");
+      return jsonErrorResponse(
+        "Your message was not received. Please try sending it again.",
+        400,
+        "bad-request",
       );
-
-      if (!fallbackToNextModel()) {
-        break;
-      }
     }
-  }
 
-  // If no model is available, return an error.
-  if (!workingModel) {
-    console.error("All free models are unavailable.");
-    return new Response(
-      JSON.stringify({
-        error:
-          "All free models are currently unavailable. Please try again later or add your own OpenRouter API key in .env.local.",
-      }),
-      {
-        status: 503,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+    // ── Convert UI messages → model messages ───────────────────────────────
+    let modelMessages;
+    try {
+      modelMessages = await convertToModelMessages(messages);
+    } catch (error) {
+      console.error("convertToModelMessages error:", error);
+      return jsonErrorResponse(
+        "There was a problem formatting your request. Please try again.",
+        400,
+        "bad-request",
+      );
+    }
 
-  // ── Stream with the working model ───────────────────────────────────────
-  try {
-    const result = streamText({
-      model: workingModel,
-      messages: modelMessages,
-      tools,
-      maxSteps: 5,
-      system: SYSTEM_PROMPT,
-      onError: (error) => {
+    if (!Array.isArray(modelMessages)) {
+      modelMessages = [];
+    }
+
+    // ── Reset to the first free model at the start of each request ────────
+    resetModel();
+
+    // ── Find a working free model ─────────────────────────────────────────
+    let workingModel = null;
+    let workingModelId = null;
+
+    for (let attempt = 0; attempt < FREE_MODELS.length; attempt++) {
+      const modelId = getCurrentModelId();
+      const model = getCurrentModel();
+
+      try {
+        // Quick availability check with a minimal prompt.
+        await generateText({
+          model,
+          prompt: "Say OK",
+          maxOutputTokens: 5,
+        });
+        workingModel = model;
+        workingModelId = modelId;
+        console.log(`[Model: ${modelId}] available, starting stream...`);
+        break;
+      } catch (error) {
+        const categorised = categorizeError(error);
         console.error(
-          `[Model: ${workingModelId}] Streaming error:`,
-          error?.error?.message || error?.message || "Unknown error",
-        );
-      },
-    });
-
-    return result.toUIMessageStreamResponse({
-      onError: (error) => {
-        console.error(
-          `[Model: ${workingModelId}] UI stream error:`,
+          `[Model: ${modelId}] unavailable:`,
           error?.message || "Unknown error",
         );
-        return (
-          error?.message ||
-          "An error occurred during streaming. Please try again."
-        );
-      },
-    });
+
+        // If this is a rate-limit error, don't try other models —
+        // they will almost certainly be rate-limited too.
+        if (categorised.isRateLimit) {
+          return jsonErrorResponse(categorised.message, 429, "rate-limit");
+        }
+
+        if (!fallbackToNextModel()) {
+          break;
+        }
+      }
+    }
+
+    // ── No working model found ────────────────────────────────────────────
+    if (!workingModel) {
+      console.error("All free models are unavailable.");
+      return jsonErrorResponse(
+        "Sorry, the AI models are temporarily unavailable. Please try again in a few minutes.",
+        503,
+        "service-unavailable",
+      );
+    }
+
+    // ── Stream with the working model ─────────────────────────────────────
+    try {
+      const result = streamText({
+        model: workingModel,
+        messages: modelMessages,
+        tools,
+        maxSteps: 5,
+        system: SYSTEM_PROMPT,
+        onError: (error) => {
+          console.error(
+            `[Model: ${workingModelId}] Streaming error:`,
+            error?.error?.message || error?.message || "Unknown error",
+          );
+        },
+      });
+
+      return result.toUIMessageStreamResponse({
+        onError: (error) => {
+          const rawError =
+            error?.error?.message || error?.message || "Unknown error";
+          console.error(
+            `[Model: ${workingModelId}] UI stream error:`,
+            rawError,
+          );
+
+          return getFriendlyErrorMessage(error);
+        },
+      });
+    } catch (error) {
+      console.error(
+        `[Model: ${workingModelId}] streamText initialization error:`,
+        error?.message,
+      );
+      return jsonErrorResponse(
+        getFriendlyErrorMessage(error),
+        500,
+        "stream-init-error",
+      );
+    }
   } catch (error) {
-    console.error(
-      `[Model: ${workingModelId}] streamText initialization error:`,
-      error?.message,
-    );
-    return new Response(
-      JSON.stringify({
-        error: `Failed to start streaming: ${error?.message || "Unknown error"}`,
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
+    console.error("[API Route] Unhandled error:", error);
+    return jsonErrorResponse(
+      getFriendlyErrorMessage(error),
+      500,
+      "internal-error",
     );
   }
 }
