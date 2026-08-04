@@ -102,12 +102,7 @@ export default function WelcomeScreen({ onSuggestion }) {
         AI Website Metadata Analyzer
       </h2>
 
-      {/* Description */}
-      <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 max-w-md mb-6 sm:mb-8 leading-relaxed">
-        Enter any website URL and the assistant will extract its metadata —
-        title, meta description, Open Graph tags, favicon, and HTTP status —
-        in real time.
-      </p>
+
 
       {/* Suggestion cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full max-w-lg">
