@@ -2,7 +2,7 @@
 
 A production-ready **AI-powered Website Metadata Analyzer** built with **Next.js 14**, **Vercel AI SDK**, and **OpenRouter**. Simply enter any website URL and let the AI fetch, analyze, and summarize the website's metadata in real time through a modern conversational interface.
 
-🌐 **Live Demo:** https://ai-website-analyzer-nu.vercel.app/
+🌐 **Live Demo:** [https://ai-website-analyzer-nu.vercel.app/](https://metaspark-ai.vercel.app/)
 
 ---
 
