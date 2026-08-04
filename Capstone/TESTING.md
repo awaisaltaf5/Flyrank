@@ -1,4 +1,4 @@
-# Flyrank AI Website Metadata Analyzer - Testing Guide
+# MetaSpark AI Website Metadata Analyzer - Testing Guide
 
 ## Overview
 
