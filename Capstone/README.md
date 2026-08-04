@@ -1,4 +1,4 @@
-# FlyRank AI — Website Metadata Analyzer
+# MetaSpark AI — Website Metadata Analyzer
 
 A production-ready **AI-powered Website Metadata Analyzer** built with **Next.js 14**, **Vercel AI SDK**, and **OpenRouter**. Simply enter any website URL and let the AI fetch, analyze, and summarize the website's metadata in real time through a modern conversational interface.
 
@@ -6,18 +6,22 @@ A production-ready **AI-powered Website Metadata Analyzer** built with **Next.js
 
 ---
 
-## 1. Project Brief
+# 1. Project Brief
 
-FlyRank AI is a conversational web application that extracts structured metadata from any public website. Instead of manually inspecting page source or using scattered SEO tools, users can paste a URL and receive an organized report containing the page title, meta description, Open Graph tags, Twitter Card data, favicon, HTTP status, and AI-generated observations—all in one chat-driven interface.
+**MetaSpark AI** is a conversational web application that extracts structured metadata from any public website. Instead of manually inspecting page source or using scattered SEO tools, users can paste a URL and receive an organized report containing the page title, meta description, Open Graph tags, Twitter Card data, favicon, HTTP status, and AI-generated observations—all in one chat-driven interface.
 
-## 2. Problem It Solves
+---
 
-- **Manual metadata inspection** is time-consuming and requires technical knowledge.
-- **Scattered SEO tools** force users to switch between multiple services.
-- **Inconsistent extraction** across different websites and frameworks.
-- **No conversational AI layer** to explain what the metadata means and how to improve it.
+# 2. Problem It Solves
 
-## 3. Target Users
+- Manual metadata inspection is time-consuming and requires technical knowledge.
+- Scattered SEO tools force users to switch between multiple services.
+- Inconsistent extraction across different websites and frameworks.
+- No conversational AI layer to explain what the metadata means and how to improve it.
+
+---
+
+# 3. Target Users
 
 - SEO specialists and digital marketers
 - Web developers and QA engineers
@@ -25,50 +29,63 @@ FlyRank AI is a conversational web application that extracts structured metadata
 - Students and researchers learning about web metadata
 - Founders and product managers doing quick website audits
 
-## 4. Why This Idea Was Chosen
+---
 
-Metadata directly impacts how content appears across search engines and social platforms. Building this as an AI chat tool demonstrates:
+# 4. Why This Idea Was Chosen
+
+Website metadata directly impacts how content appears across search engines and social platforms. Building this as an AI chat tool demonstrates:
+
 - Real-world **tool calling** with schema validation
 - Streaming AI responses in a conversational UI
 - Server-side data fetching with proper error handling
 - Accessible, responsive design patterns
 - Production-ready deployment on Vercel with OpenRouter
 
-## 5. Features
+---
+
+# 5. Features
 
 - 🤖 AI-powered conversational interface
 - 🌐 URL validation and normalization
-- 📄 Structured metadata extraction:
-  - Title & meta description
-  - Open Graph tags (title, description, image, type, site name)
-  - Twitter Card data
-  - Favicon
-  - HTTP status & content type
-  - Language, author, robots directives
+- 📄 Structured metadata extraction
+  - Page title
+  - Meta description
+  - Open Graph tags
+  - Twitter Card tags
   - Canonical URL
-- ⚡ Real-time streaming AI responses
+  - Robots directives
+  - Language
+  - Author
+  - Favicon
+  - HTTP status
+  - Content type
+- ⚡ Real-time AI streaming responses
 - 🛠️ Server-side tool calling with Zod validation
 - 🔄 Automatic fallback between OpenRouter models
 - 🌙 Dark mode with system preference detection
-- 📱 Fully responsive (mobile, tablet, desktop)
+- 📱 Fully responsive UI
 - ⬇️ Smart auto-scroll with "Jump to Latest"
-- ♿ Accessibility: ARIA labels, keyboard navigation, focus management
-- ⚠️ Missing metadata warnings
+- ♿ Accessibility support
+- ⚠️ Missing metadata detection
 - 🔁 Retry mechanism for failed analyses
 
-## 6. Technology Stack
+---
 
-- **Next.js 14 (App Router)**
-- **React 18**
-- **Vercel AI SDK v7**
-- **@ai-sdk/react**
-- **@ai-sdk/openai-compatible**
-- **OpenRouter**
-- **Tailwind CSS**
-- **Zod**
-- **JavaScript (ES6+)**
+# 6. Technology Stack
 
-## 7. Architecture Overview
+- Next.js 14 (App Router)
+- React 18
+- Vercel AI SDK v7
+- @ai-sdk/react
+- @ai-sdk/openai-compatible
+- OpenRouter
+- Tailwind CSS
+- Zod
+- JavaScript (ES6+)
+
+---
+
+# 7. Architecture Overview
 
 ```text
 ┌─────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -78,69 +95,72 @@ Metadata directly impacts how content appears across search engines and social p
                                                   │
                                                   ▼
                                             ┌─────────────┐
-                                            │  AI Tool:   │
+                                            │ AI Tool     │
                                             │ analyzeWebsite │
                                             └──────┬──────┘
-                                                  │
-                                                  ▼
+                                                   │
+                                                   ▼
                                             ┌─────────────┐
-                                            │  OpenRouter │
-                                            │  (LLM)      │
+                                            │ OpenRouter  │
+                                            │    LLM      │
                                             └─────────────┘
 ```
 
-**Flow:**
-1. User enters a URL in the chat input or welcome screen.
-2. Client-side validation normalizes the URL.
-3. The `/api/chat` route streams the conversation using `useChat`.
-4. The AI model decides to call the `analyzeWebsite` tool.
-5. The server-side tool fetches the target website, extracts metadata, and validates it against a Zod schema.
-6. Structured metadata is returned to the AI.
-7. The AI summarizes findings and recommendations.
-8. The UI renders the structured `ToolInvocation` card with `ResultSections`.
+### Flow
 
-## 8. Folder Structure
+1. User enters a website URL.
+2. URL is validated and normalized.
+3. `/api/chat` streams responses using `useChat`.
+4. The AI calls the `analyzeWebsite` tool.
+5. The tool securely fetches the webpage.
+6. Metadata is extracted and validated using Zod.
+7. The AI summarizes findings.
+8. Structured metadata is rendered in the UI.
 
-```
+---
+
+# 8. Folder Structure
+
+```text
 .
 ├── app/
 │   ├── api/
 │   │   └── chat/
-│   │       └── route.js          # AI streaming endpoint
-│   ├── error.jsx                 # Error boundary
-│   ├── globals.css               # Global styles
-│   ├── layout.jsx                # Root layout
-│   └── page.jsx                  # Home / chat page
+│   │       └── route.js
+│   ├── error.jsx
+│   ├── globals.css
+│   ├── layout.jsx
+│   └── page.jsx
 ├── components/
-│   ├── ChatInput.jsx             # Message input with URL validation
-│   ├── ChatMessage.jsx           # Message bubble renderer
-│   ├── ChatError.jsx             # Error display with retry
-│   ├── Icons.jsx                 # Shared memoized SVG icons
-│   ├── LoadingSkeleton.jsx       # Placeholder loading state
-│   ├── ResultSections.jsx        # Structured metadata display
-│   ├── ScrollToBottomButton.jsx  # Scroll control
-│   ├── ThinkingIndicator.jsx     # AI thinking state
-│   ├── ToolInvocation.jsx        # Tool result card
-│   └── WelcomeScreen.jsx         # First-run screen
+│   ├── ChatInput.jsx
+│   ├── ChatMessage.jsx
+│   ├── ChatError.jsx
+│   ├── Icons.jsx
+│   ├── LoadingSkeleton.jsx
+│   ├── ResultSections.jsx
+│   ├── ScrollToBottomButton.jsx
+│   ├── ThinkingIndicator.jsx
+│   ├── ToolInvocation.jsx
+│   └── WelcomeScreen.jsx
 ├── lib/
-│   ├── ai.js                     # AI model config (OpenRouter)
-│   ├── error-utils.js            # Friendly error messages
-│   ├── prompts.js                # System prompt
-│   ├── tools.js                  # Tool definitions + Zod schemas
-│   ├── url-security.js           # SSRF protection helpers
-│   └── url-utils.js              # URL normalization/validation
+│   ├── ai.js
+│   ├── error-utils.js
+│   ├── prompts.js
+│   ├── tools.js
+│   ├── url-security.js
+│   └── url-utils.js
 ├── test/
-│   ├── setup.js                  # Vitest + jsdom setup
-│   ├── url-utils.test.js         # Unit tests for URL utils
-│   ├── chat-input.test.jsx       # ChatInput tests
-│   ├── result-sections.test.jsx  # ResultSections tests
-│   ├── tool-invocation.test.jsx  # ToolInvocation tests
-│   └── app-flow.test.jsx         # Primary flow integration tests
-├── .env.local                    # Local secrets (ignored)
+│   ├── setup.js
+│   ├── url-utils.test.js
+│   ├── chat-input.test.jsx
+│   ├── result-sections.test.jsx
+│   ├── tool-invocation.test.jsx
+│   └── app-flow.test.jsx
+├── .env.local
 ├── .gitignore
-├── AUDIT.md                      # Accessibility & performance audit
-├── DEPLOYMENT_CHECKLIST.md       # Pre/post-deploy checklist
-├── TESTING.md                    # Test strategy and commands
+├── AUDIT.md
+├── DEPLOYMENT_CHECKLIST.md
+├── TESTING.md
 ├── package.json
 ├── next.config.js
 ├── tailwind.config.js
@@ -148,100 +168,118 @@ Metadata directly impacts how content appears across search engines and social p
 └── README.md
 ```
 
-## 9. Local Setup
+---
 
-### Prerequisites
+# 9. Local Setup
 
-- **Node.js 22+**
-- **npm** (or pnpm/yarn)
-- **OpenRouter API Key**
+## Prerequisites
+
+- Node.js 22+
+- npm (or pnpm / yarn)
+- OpenRouter API Key
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/awaisaltaf5/Flyrank.git
+git clone https://github.com/awaisaltaf5/MetaSpark.git
 
-# Navigate into the project
-cd Flyrank/Capstone
+cd MetaSpark
 
-# Install dependencies
 npm install
 ```
 
-### Environment Variables
+---
 
-Create a `.env.local` file in the project root:
+# 10. Environment Variables
+
+Create `.env.local`
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-> ⚠️ **Never commit your API key to version control.**
+> Never commit API keys.
 
-## 10. Run Commands
+---
+
+# 11. Run Commands
 
 ```bash
-# Development server
 npm run dev
 
-# Production build
 npm run build
 
-# Start production server
 npm start
 
-# Lint
 npm run lint
 
-# Tests
 npm test
 ```
 
-## 11. AI Integration
+---
 
-The app uses the **Vercel AI SDK** (`ai` v7, `@ai-sdk/react`, `@ai-sdk/openai-compatible`) to stream chat completions. The AI model is configured in `lib/ai.js` using OpenRouter as the provider. The SDK handles:
-- Streaming text and tool calls
-- Message history management
+# 12. AI Integration
+
+MetaSpark AI uses the **Vercel AI SDK** together with **OpenRouter** to stream conversational responses.
+
+The SDK manages:
+
+- Streaming text
+- Tool calls
+- Message history
 - Error propagation
-- Client/server boundary
+- Client/server communication
 
-## 12. OpenRouter Integration
+---
 
-OpenRouter provides access to multiple free-tier models through a single API. The app:
-- Reads `OPENROUTER_API_KEY` server-side only.
-- Uses `@ai-sdk/openai-compatible` with the OpenRouter base URL.
-- Configures model fallbacks in `lib/ai.js`.
-- Streams responses via the AI SDK.
+# 13. OpenRouter Integration
 
-## 13. AI System Prompt Purpose
+OpenRouter provides access to multiple LLMs through one API.
 
-Defined in `lib/prompts.js`, the system prompt:
-- Establishes the assistant as a **website metadata analyst**.
-- Instructs the model to use the `analyzeWebsite` tool.
-- Sets output format expectations (structured, concise, actionable).
-- Prevents the model from fabricating metadata when fields are missing.
-- Ensures the tool is called exactly once per user request.
+The application:
 
-## 14. Website Analyzer Tool
+- Reads the API key server-side only
+- Uses the OpenAI-compatible provider
+- Configures fallback models
+- Streams responses with AI SDK
 
-Defined in `lib/tools.js`. The `analyzeWebsite` tool:
-- Accepts a normalized URL.
-- Fetches the page using a secure HTTP client.
-- Parses HTML with regex/DOM extraction (no heavy parser dependencies).
-- Returns structured metadata plus `missingFields` and `error` fields.
+---
 
-## 15. Tool Input Schema
+# 14. AI System Prompt
+
+The system prompt:
+
+- Defines the assistant as a website metadata expert
+- Forces use of the `analyzeWebsite` tool
+- Produces concise and structured responses
+- Prevents fabricated metadata
+- Ensures one tool call per request
+
+---
+
+# 15. Website Analyzer Tool
+
+The `analyzeWebsite` tool:
+
+- Accepts a normalized URL
+- Fetches the webpage securely
+- Extracts metadata
+- Validates data using Zod
+- Returns structured metadata plus missing fields and errors
+
+---
+
+# 16. Tool Input
 
 ```ts
 {
-  url: string // normalized http(s) URL
+  url: string
 }
 ```
 
-Validated with Zod in `lib/tools.js`.
+---
 
-## 16. Tool Output / Return Shape
+# 17. Tool Output
 
 ```ts
 {
@@ -254,7 +292,7 @@ Validated with Zod in `lib/tools.js`.
   canonicalUrl: string | null;
   ogTitle: string | null;
   ogDescription: string | null;
-  ogImage: string | null;
+  ogImage: string |null;
   ogUrl: string | null;
   ogType: string | null;
   ogSiteName: string | null;
@@ -272,126 +310,158 @@ Validated with Zod in `lib/tools.js`.
 }
 ```
 
-## 17. Error Handling
+---
 
-- **Client-side**: URL validation errors shown inline with `role="alert"`.
-- **Server-side**: Tool failures return structured `error` messages.
-- **AI layer**: Friendly error classification in `lib/error-utils.js` and `components/ToolInvocation.jsx`.
-- **Network**: Retry button in `ChatError` and `ToolInvocation`.
-- **SSRF protection**: `lib/url-security.js` blocks private/reserved IPs and non-HTTP(S) schemes.
+# 18. Error Handling
 
-## 18. Testing
+- Client-side URL validation
+- Structured server-side errors
+- Friendly AI error messages
+- Retry support
+- SSRF protection
+- Reserved IP blocking
+- HTTP(S) only enforcement
+
+---
+
+# 19. Testing
 
 ```bash
 npm test
 ```
 
-- **Unit tests**: URL utilities (`lib/url-utils.js`)
-- **Component tests**: `ChatInput`, `ResultSections`, `ToolInvocation`
-- **Integration tests**: Primary user flow (`app-flow.test.jsx`)
-- **Test framework**: Vitest + React Testing Library
-- **Coverage**: 60 tests covering validation, rendering, tool states, error handling, and app flow.
+Includes:
 
-See `TESTING.md` for details.
+- URL utility tests
+- Component tests
+- Integration tests
+- Vitest
+- React Testing Library
 
-## 19. Accessibility
+Coverage:
 
-- Semantic HTML (`header`, `main`, headings, lists).
-- ARIA labels on icon-only buttons.
-- `aria-live` regions for streaming tool states and errors.
-- `role="alert"` for validation and tool errors.
-- Keyboard navigation supported throughout.
-- Visible focus states preserved.
-- Touch targets ≥ 40×40px.
-- Responsive layout with no horizontal overflow.
+- 60+ tests
 
-See `AUDIT.md` for the manual audit results.
+---
 
-## 20. Performance
+# 20. Accessibility
 
-- Centralized memoized `Icon` component to reduce SVG re-creation.
-- Client-side URL validation to avoid unnecessary API calls.
-- Minimal dependencies; no heavy parsers.
-- Streaming responses reduce time-to-first-token.
-- Shared Next.js chunks reduce bundle duplication.
+- Semantic HTML
+- ARIA labels
+- Live regions
+- Keyboard navigation
+- Focus management
+- Large touch targets
+- Responsive layouts
 
-Production First Load JS: ~66.8 kB (main page), shared chunks ~87.3 kB.
+---
 
-## 21. Deployment
+# 21. Performance
 
-### Vercel
+- Memoized icons
+- Lightweight metadata parser
+- Streaming responses
+- Client-side validation
+- Optimized shared chunks
 
-1. Push to GitHub.
-2. Import repository in Vercel.
-3. Add environment variable `OPENROUTER_API_KEY`.
+Production First Load JS
+
+- Main page ≈66.8 kB
+- Shared chunks ≈87.3 kB
+
+---
+
+# 22. Deployment
+
+## Vercel
+
+1. Push repository to GitHub.
+2. Import into Vercel.
+3. Add
+
+```
+OPENROUTER_API_KEY
+```
+
 4. Deploy.
 
-### Environment Variables
+---
+
+# 23. Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `OPENROUTER_API_KEY` | Yes | OpenRouter API key for AI model access |
+| OPENROUTER_API_KEY | Yes | OpenRouter API key |
 
-See `DEPLOYMENT_CHECKLIST.md` for the full pre/post-deploy checklist.
+---
 
-## 22. Known Limitations
+# 24. Known Limitations
 
-- **No automated axe/a11y scan** was performed; accessibility findings are manual.
-- **No color-contrast metrics** collected.
-- **External metadata images** are not optimized with `next/image` due to missing external loader config.
-- **No `aria-busy`** on the input form during submission/streaming.
-- **Free OpenRouter models** may have rate limits or latency variability.
-- **SSRF protection** blocks private/reserved ranges; some corporate proxies may be affected.
-- **Metadata extraction** relies on regex and DOM APIs; extremely malformed HTML may reduce accuracy.
+- Manual accessibility audit only
+- No automated axe testing
+- No Lighthouse CI
+- Regex-based metadata parsing
+- Free model rate limits
+- External OG images not optimized
+- No aria-busy during streaming
 
-## 23. Future Improvements
+---
+
+# 25. Future Improvements
 
 - 🌍 Multi-language support
-- 📊 SEO score analysis
-- 🖼️ Social media preview generation
-- 📈 Performance insights (Core Web Vitals)
-- 📋 Export metadata as JSON/PDF
-- 🔍 Compare metadata between websites
-- 🤖 Support for additional AI providers
-- ♿ Automated a11y testing (axe, Lighthouse CI)
-- 🖼️ `next/image` with external loader for metadata images
-- 📱 PWA support
+- 📊 SEO scoring
+- 🖼️ Social preview generation
+- 📈 Core Web Vitals
+- 📋 Export as JSON/PDF
+- 🔍 Compare multiple websites
+- 🤖 Additional AI providers
+- ♿ Automated accessibility testing
+- 🖼️ next/image optimization
+- 📱 Progressive Web App (PWA)
 
 ---
 
 # 🚀 Getting Started
 
-## Prerequisites
+## Requirements
 
 - Node.js 22+
 - OpenRouter API Key
 
-## Installation
+## Clone
 
 ```bash
-git clone https://github.com/awaisaltaf5/Flyrank.git
-cd Flyrank/Capstone
+git clone https://github.com/awaisaltaf5/MetaSpark.git
+
+cd MetaSpark
+
 npm install
 ```
 
-## Environment Variables
+Create
 
 ```env
 OPENROUTER_API_KEY=your_api_key_here
 ```
 
-## Run Development Server
+Run
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Visit
 
-## Production Build
+```
+http://localhost:3000
+```
+
+Production
 
 ```bash
 npm run build
+
 npm start
 ```
 
@@ -403,8 +473,7 @@ npm start
 npm test
 ```
 
-- 60 tests covering URL validation, components, tool states, and primary user flow.
-- See `TESTING.md` for test structure and coverage.
+Includes over **60 tests** covering validation, components, tool invocation, error handling, and the complete application flow.
 
 ---
 
@@ -418,8 +487,9 @@ MIT
 
 **Muhammad Awais Altaf**
 
-- GitHub: https://github.com/awaisaltaf5
-- LinkedIn: https://www.linkedin.com/in/awaisaltaf5/
+GitHub: https://github.com/awaisaltaf5
+
+LinkedIn: https://www.linkedin.com/in/awaisaltaf5/
 
 ---
 
@@ -436,6 +506,10 @@ MIT
 
 <div align="center">
 
-### 🤖 Built with ❤️ using Next.js, Vercel AI SDK & OpenRouter
+## ✨ MetaSpark AI
+
+### AI-powered Website Metadata Analyzer
+
+Built with ❤️ using Next.js, Vercel AI SDK & OpenRouter
 
 </div>
