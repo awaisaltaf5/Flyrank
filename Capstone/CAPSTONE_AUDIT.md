@@ -1,7 +1,7 @@
-# Capstone Audit — FlyRank AI Website Metadata Analyzer
+# Capstone Audit — MetaSpark AI Website Metadata Analyzer
 
 **Date:** 2026-08-02  
-**Project:** FlyRank AI — AI-powered Website Metadata Analyzer  
+**Project:** MetaSpark AI — AI-powered Website Metadata Analyzer  
 **Stack:** Next.js 14, Vercel AI SDK v7, OpenRouter, Tailwind CSS, Zod
 
 ---
