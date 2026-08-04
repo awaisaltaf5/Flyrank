@@ -1,9 +1,9 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "FlyRank AI · Website Metadata Analyzer",
+  title: "MetaSpark AI — Website Metadata Analyzer",
   description:
-    "AI-powered website metadata analyzer using Vercel AI SDK, OpenRouter, and tool calling. Analyze any website's title, description, Open Graph tags, and more.",
+    "AI-powered website metadata and Open Graph analyzer. Analyze any website's title, description, Open Graph tags, favicon, and HTTP status with AI-powered insights.",
   keywords: [
     "AI",
     "metadata analyzer",
@@ -12,8 +12,9 @@ export const metadata = {
     "website analysis",
     "SEO",
     "Open Graph",
+    "MetaSpark AI",
   ],
-  authors: [{ name: "FlyRank" }],
+  authors: [{ name: "MetaSpark AI" }],
 };
 
 // Use environment variable for production, fallback to localhost for dev

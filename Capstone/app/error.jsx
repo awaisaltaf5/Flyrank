@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 /**
- * Root error boundary for the FlyRank AI application.
+ * Root error boundary for the MetaSpark AI application.
  * Catches unhandled React errors (client + server) and renders a
  * friendly, branded fallback with a retry button.
  */

@@ -1,5 +1,5 @@
 /**
- * Error handling utilities for the FlyRank AI chat application.
+ * Error handling utilities for the MetaSpark AI chat application.
  *
  * These helpers ensure that:
  *  - Internal errors (stack traces, API keys, raw provider responses) are

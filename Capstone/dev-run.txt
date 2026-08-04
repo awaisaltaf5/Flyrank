@@ -1,0 +1,638 @@
+
+> flyrank-week5@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.8s
+ ○ Compiling / ...
+ ✓ Compiled / in 6.2s (738 modules)
+ GET / 200 in 6661ms
+ ○ Compiling /api/chat ...
+ ✓ Compiled /api/chat in 1684ms (178 modules)
+[Model: openai/gpt-oss-20b:free] available, starting stream...
+ POST /api/chat 200 in 15963ms
+ ✓ Compiled in 482ms
+ ✓ Compiled in 1343ms (349 modules)
+ ✓ Compiled in 254ms (349 modules)
+ ✓ Compiled in 249ms (349 modules)
+ ⨯ ./components/ChatInput.jsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ChatInput.jsx[0m:187:1]
+ [2m187[0m |         </div>
+ [2m188[0m |       </div>
+ [2m189[0m |     </div>
+ [2m190[0m |   );
+     : [31;1m   ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ChatInput.jsx
+./app/page.jsx
+ ✓ Compiled in 529ms (350 modules)
+ ✓ Compiled in 376ms (350 modules)
+ ✓ Compiled in 301ms (350 modules)
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Expression expected
+    ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:28:1]
+ [2m28[0m |           />
+ [2m29[0m |         </svg>
+ [2m30[0m |       ),
+ [2m31[0m |     },
+    : [31;1m    ^[0m
+ [2m32[0m |     {
+ [2m33[0m |       label: "Analyze github.com",
+ [2m33[0m |       text: "Analyze https://github.com",
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Expected ',', got 'stroke'
+    ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:18:1]
+ [2m18[0m |   const suggestions = [
+ [2m19[0m |     {
+ [2m20[0m |           viewBox="0 0 24 24"
+ [2m21[0m |           stroke="currentColor"
+    : [31;1m          ^^^^^^[0m
+ [2m22[0m |         >
+ [2m23[0m |           <path
+ [2m23[0m |             strokeLinecap="round"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unterminated regexp literal
+    ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:26:1]
+ [2m26[0m |             strokeWidth={2}
+ [2m27[0m |             d="M13 7l5 5m0 0l-5 5m5-5H6"
+ [2m28[0m |           />
+ [2m29[0m |         </svg>
+    : [31;1m         ^^^^^[0m
+ [2m30[0m |       ),
+ [2m31[0m |     },
+ [2m31[0m |     {
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Expected corresponding JSX closing tag for <path>
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:126:1]
+ [2m126[0m |           className="sr-only"
+ [2m127[0m |         >
+ [2m128[0m |           Enter a website URL to get started
+ [2m129[0m |         </label>
+     : [31;1m        ^^^^^^^^[0m
+ [2m130[0m |         <div className="flex gap-2">
+ [2m131[0m |           <input
+ [2m131[0m |             id="welcome-url-input"
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:188:1]
+ [2m188[0m |             className="mt-2 text-left px-1 text-xs text-red-600 dark:text-red-400 flex items-center gap-1.5"
+ [2m189[0m |           >
+ [2m190[0m |             <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:200:1]
+ [2m200[0m |         {suggestions.map((s) => (
+ [2m201[0m |           <button
+ [2m202[0m |             key={s.label}
+ [2m203[0m |             onClick={() => onSuggestion?.(s.text)}
+     : [31;1m                                                  ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:218:1]
+ [2m218[0m |           "Tool calling",
+ [2m219[0m |           "Open Graph",
+ [2m220[0m |           "Favicon",
+ [2m221[0m |           "Dark mode",
+     : [31;1m                      ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:221:1]
+ [2m221[0m |           "Dark mode",
+ [2m222[0m |         ].map((feature) => (
+ [2m223[0m |           <span
+ [2m224[0m |             key={feature}
+     : [31;1m                         ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:224:1]
+ [2m224[0m |             key={feature}
+ [2m225[0m |             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]"
+ [2m226[0m |           >
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:225:1]
+ [2m225[0m |             className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]"
+ [2m226[0m |           >
+ [2m227[0m |             {feature}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ⨯ ./components/WelcomeScreen.jsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\WelcomeScreen.jsx[0m:229:1]
+ [2m229[0m |         ))}
+ [2m230[0m |       </div>
+ [2m231[0m |     </div>
+ [2m232[0m |   );
+     : [31;1m   ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/WelcomeScreen.jsx
+./app/page.jsx
+ ✓ Compiled in 313ms (350 modules)
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:140:1]
+ [2m140[0m |         </div>
+ [2m141[0m |       </div>
+ [2m142[0m | 
+ [2m143[0m |       {/* ── Open Graph ───────────────────────────────────────────────────── */}
+     : [31;1m      ^[0m
+ [2m144[0m |       <div>
+ [2m145[0m |         <SectionTitle
+ [2m145[0m |           icon={
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Expression expected
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:127:1]
+ [2m127[0m |       <div>
+ [2m128[0m |         <SectionTitle
+ [2m129[0m |           icon={
+ [2m130[0m |         >
+     : [31;1m        ^[0m
+ [2m131[0m |           Metadata
+ [2m132[0m |         </SectionTitle>
+ [2m132[0m |         <div className="pl-1">
+     `----
+
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:129:1]
+ [2m129[0m |           icon={
+ [2m130[0m |         >
+ [2m131[0m |           Metadata
+ [2m132[0m |         </SectionTitle>
+     : [31;1m         ^^^^^^^^^^^^^^[0m
+ [2m133[0m |         <div className="pl-1">
+ [2m134[0m |           <Row label="Title" value={d.title} />
+ [2m134[0m |           <Row label="Description" value={d.metaDescription} />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Unexpected token `.`. Expected ... , *,  (, [, :, , ?, = or an identifier
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:181:1]
+ [2m181[0m |             <span className="text-xs text-gray-400 dark:text-gray-500 italic">No HTTP response</span>
+ [2m182[0m |           )}
+ [2m183[0m |           {d.contentType && (
+ [2m184[0m |           {d.twitterImage && <Row label="Image" value={d.twitterImage} href={d.twitterImage} />}
+     : [31;1m            ^[0m
+ [2m185[0m |         </div>
+ [2m186[0m |       </div>
+ [2m186[0m | 
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ✓ Compiled in 234ms (350 modules)
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:191:1]
+ [2m191[0m |         <SectionTitle
+ [2m192[0m |           icon={
+ [2m193[0m |             <span>Missing Metadata</span>
+ [2m194[0m |           </div>
+     : [31;1m           ^^^^^[0m
+ [2m195[0m |           <ul className="space-y-1">
+ [2m196[0m |             {d.missingFields.map((f) => (
+ [2m196[0m |               <li key={f} className="text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:254:1]
+ [2m254[0m |       {hasMissing && (
+ [2m255[0m |         <div className="rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50/50 dark:bg-amber-900/10 px-4 py-3">
+ [2m256[0m |           <div className="flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-2">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:260:1]
+ [2m260[0m |           <ul className="space-y-1">
+ [2m261[0m |             {d.missingFields.map((f) => (
+ [2m262[0m |               <li key={f} className="text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ResultSections.jsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ResultSections.jsx[0m:268:1]
+ [2m268[0m |         </div>
+ [2m269[0m |       )}
+ [2m270[0m |     </div>
+ [2m271[0m |   );
+     : [31;1m   ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ResultSections.jsx
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ✓ Compiled in 210ms (350 modules)
+ ✓ Compiled in 461ms (350 modules)
+ ✓ Compiled in 240ms (350 modules)
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:113:1]
+ [2m113[0m |               <div className="h-3 bg-blue-200/50 dark:bg-blue-800/30 rounded animate-pulse w-3/4" />
+ [2m114[0m |               <div className="h-3 bg-blue-200/50 dark:bg-blue-800/30 rounded animate-pulse w-1/2" />
+ [2m115[0m |             </div>
+ [2m116[0m |           )}
+     : [31;1m           ^[0m
+ [2m117[0m |         </div>
+ [2m118[0m |       </div>
+ [2m118[0m |     );
+     `----
+
+  [31mx[0m Expected corresponding JSX closing tag for <svg>
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:114:1]
+ [2m114[0m |               <div className="h-3 bg-blue-200/50 dark:bg-blue-800/30 rounded animate-pulse w-1/2" />
+ [2m115[0m |             </div>
+ [2m116[0m |           )}
+ [2m117[0m |         </div>
+     : [31;1m        ^^^^^^[0m
+ [2m118[0m |       </div>
+ [2m119[0m |     );
+ [2m119[0m |   }
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expected ',', got 'className'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:142:1]
+ [2m142[0m |   if (state === "input-streaming") {
+ [2m143[0m |     return (
+ [2m144[0m |               <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce-dot" />
+ [2m145[0m |               <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce-dot" style={{ animationDelay: "0.2s" }} />
+     : [31;1m                   ^^^^^^^^^[0m
+ [2m146[0m |               <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce-dot" style={{ animationDelay: "0.4s" }} />
+ [2m147[0m |             </div>
+ [2m147[0m |             <p className="text-xs text-amber-600 dark:text-amber-400">Fetching page and extracting metadata...</p>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expected corresponding JSX closing tag for <svg>
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:181:1]
+ [2m181[0m |               >
+ [2m182[0m |                 {data?.finalUrl || data?.url || input?.url}
+ [2m183[0m |               </a>
+ [2m184[0m |             </div>
+     : [31;1m            ^^^^^^[0m
+ [2m185[0m |           </div>
+ [2m186[0m |           <div className="flex items-center gap-2 flex-shrink-0">
+ [2m186[0m |             <StatusBadge state={state} />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Unexpected token. Did you mean `{'>'}` or `&gt;`?
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:178:1]
+ [2m178[0m |                 target="_blank"
+ [2m179[0m |                 rel="noopener noreferrer"
+ [2m180[0m |                 className="text-xs text-primary-600 dark:text-primary-400 hover:underline truncate block max-w-full transition-colors"
+ [2m181[0m |               >
+     : [31;1m              ^[0m
+ [2m182[0m |                 {data?.finalUrl || data?.url || input?.url}
+ [2m183[0m |               </a>
+ [2m183[0m |             </div>
+     `----
+
+  [31mx[0m Expected corresponding JSX closing tag for <div>
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:180:1]
+ [2m180[0m |                 className="text-xs text-primary-600 dark:text-primary-400 hover:underline truncate block max-w-full transition-colors"
+ [2m181[0m |               >
+ [2m182[0m |                 {data?.finalUrl || data?.url || input?.url}
+ [2m183[0m |               </a>
+     : [31;1m              ^^^^[0m
+ [2m184[0m |             </div>
+ [2m185[0m |           </div>
+ [2m185[0m |           <div className="flex items-center gap-2 flex-shrink-0">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expected ',', got '{'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:188:1]
+ [2m188[0m |           </div>
+ [2m189[0m |         </div>
+ [2m190[0m | 
+ [2m191[0m |         {/* Structured Result Sections */}
+     : [31;1m        ^[0m
+ [2m192[0m |         <div className="px-4 py-4">
+ [2m193[0m |           <ResultSections data={data} input={input} />
+ [2m193[0m |         </div>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expected corresponding JSX closing tag for <svg>
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:182:1]
+ [2m182[0m |         <div className="px-4 py-3">
+ [2m183[0m |           <div className="flex items-center gap-2">
+ [2m184[0m |             <svg className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+ [2m185[0m |           </div>
+     : [31;1m          ^^^^^^[0m
+ [2m186[0m |           <div className="flex items-center gap-2 flex-shrink-0">
+ [2m187[0m |             <StatusBadge state={state} />
+ [2m187[0m |           </div>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expression expected
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:205:1]
+ [2m205[0m | 
+ [2m206[0m |     // Check if the output itself contains an error.
+ [2m207[0m |     if (data?.error) {
+ [2m208[0m |     );
+     : [31;1m    ^[0m
+ [2m209[0m |   }
+ [2m210[0m | 
+ [2m210[0m |   // ─── State: error (or unknown) ────────────────────────────────────────────
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Unexpected eof
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:226:1]
+ [2m226[0m |                 rel="noopener noreferrer"
+ [2m227[0m |                 className="text-xs text-primary-600 dark:text-primary-400 hover:underline truncate block max-w-full transition-colors"
+ [2m228[0m |               >
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ⨯ ./components/ToolInvocation.jsx
+Error: 
+  [31mx[0m Expected '}', got '<eof>'
+     ,-[[36;1;4mD:\Flyrank Ai Internship\Flyrank\Capstone\components\ToolInvocation.jsx[0m:256:1]
+ [2m256[0m |   }
+ [2m257[0m | 
+ [2m258[0m |   // ─── State: error (or unknown) ────────────────────────────────────────────
+ [2m259[0m |   return <ErrorCard url={input?.url} error={output?.error || "Tool execution failed"} />;
+     : [31;1m                                                                                        ^[0m
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./components/ToolInvocation.jsx
+./components/ChatMessage.jsx
+./app/page.jsx
+ ✓ Compiled in 273ms (350 modules)
+ ✓ Compiled / in 436ms (390 modules)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Flyrank Ai Internship\Flyrank\Capstone\.next\server\webpack-runtime.js:33:42)
+digest: "2453612640"
+TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Flyrank Ai Internship\Flyrank\Capstone\.next\server\webpack-runtime.js:33:42)
+    at require (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:40:20064)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108376
+    at ea (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108583)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:110813
+    at Object._fromJSON (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:111370)
+    at JSON.parse (<anonymous>)
+    at ec (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:109078)
+    at eo (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108123)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115291
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115308
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115341
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115358
+    at t (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115581)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Flyrank Ai Internship\Flyrank\Capstone\.next\server\webpack-runtime.js:33:42)
+    at require (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:40:20064)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108376
+    at ea (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108583)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:110813
+    at Object._fromJSON (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:111370)
+    at JSON.parse (<anonymous>)
+    at ec (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:109078)
+    at eo (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108123)
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115291
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115308
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115341
+    at D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115358
+    at t (D:\Flyrank Ai Internship\Flyrank\Capstone\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115581) {
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1830ms (952 modules)
+ GET / 500 in 2912ms
+[?25h

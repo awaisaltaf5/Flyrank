@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { validateUrlInput, looksLikeUrl } from "@/lib/url-utils";
+import Icon from "@/components/Icons";
 
 export default function ChatInput({
   sendMessage,
@@ -10,6 +12,7 @@ export default function ChatInput({
   canRegenerate,
 }) {
   const [input, setInput] = useState("");
+  const [validationError, setValidationError] = useState("");
   const textareaRef = useRef(null);
 
   const isLoading = status === "submitted" || status === "streaming";
@@ -23,10 +26,30 @@ export default function ChatInput({
     }
   }, [input]);
 
+  const handleInputChange = useCallback((e) => {
+    setInput(e.target.value);
+    // Clear validation error as the user types.
+    if (validationError) setValidationError("");
+  }, [validationError]);
+
   const handleSubmit = (e) => {
     e?.preventDefault();
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
+
+    // ── Client-side URL validation ────────────────────────────────────────
+    // If the input looks like a URL attempt, validate it before sending.
+    if (looksLikeUrl(trimmed)) {
+      const result = validateUrlInput(trimmed);
+      if (!result.ok) {
+        setValidationError(result.error);
+        return;
+      }
+      // Send the normalized URL so the server gets a clean value.
+      sendMessage({ text: `Analyze ${result.url}` });
+      setInput("");
+      return;
+    }
 
     // AI SDK v7: sendMessage accepts { text: string }.
     sendMessage({ text: trimmed });
@@ -45,34 +68,31 @@ export default function ChatInput({
       <div className="max-w-3xl mx-auto">
         <form onSubmit={handleSubmit} className="relative">
           {/* Input container with URL icon */}
-          <div className="relative flex items-end gap-2 sm:gap-3 bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl border border-gray-200 dark:border-[#2a2a2a] focus-within:border-primary-500 dark:focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 transition-all p-2 sm:p-3">
+          <div className={`relative flex items-end gap-2 sm:gap-3 bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl border transition-all p-2 sm:p-3 ${
+            validationError
+              ? "border-red-400 dark:border-red-600 focus-within:ring-2 focus-within:ring-red-500/20"
+              : "border-gray-200 dark:border-[#2a2a2a] focus-within:border-primary-500 dark:focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20"
+          }`}>
             {/* URL icon */}
             <div className="flex-shrink-0 pb-1 pl-1">
-              <svg
-                className="w-5 h-5 text-gray-400 dark:text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                />
-              </svg>
+              <Icon
+                name="link"
+                className={`w-5 h-5 ${validationError ? "text-red-400 dark:text-red-500" : "text-gray-400 dark:text-gray-500"}`}
+              />
             </div>
 
             {/* Textarea - fixed invisible text bug with explicit colors */}
             <textarea
               ref={textareaRef}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="Enter a website URL to analyze (e.g. https://vercel.com)..."
               rows={1}
               disabled={isLoading}
               aria-label="Website URL input"
+              aria-invalid={validationError ? "true" : "false"}
+              aria-describedby={validationError ? "url-validation-error" : undefined}
               className="flex-1 resize-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm leading-relaxed py-2 focus:outline-none disabled:opacity-50 caret-primary-600 dark:caret-primary-400 min-w-0"
               style={{
                 color: "var(--text-primary)",
@@ -89,13 +109,7 @@ export default function ChatInput({
                 aria-label="Stop generation"
                 title="Stop"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <rect x="6" y="6" width="12" height="12" rx="2" />
-                </svg>
+                <Icon name="stop" className="w-4 h-4" />
               </button>
             ) : (
               <button
@@ -105,22 +119,22 @@ export default function ChatInput({
                 aria-label="Send message"
                 title="Send"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  />
-                </svg>
+                <Icon name="send" className="w-5 h-5" />
               </button>
             )}
           </div>
+
+          {/* Validation error message */}
+          {validationError && (
+            <p
+              id="url-validation-error"
+              role="alert"
+              className="mt-2 px-1 text-xs text-red-600 dark:text-red-400 flex items-center gap-1.5"
+            >
+              <Icon name="alert" className="w-3.5 h-3.5 flex-shrink-0" />
+              {validationError}
+            </p>
+          )}
         </form>
 
         {/* Helper text */}

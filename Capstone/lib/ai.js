@@ -8,7 +8,7 @@ const openrouter = createOpenAICompatible({
   apiKey: process.env.OPENROUTER_API_KEY,
   headers: {
     "HTTP-Referer": "http://localhost:3000",
-    "X-Title": "FlyRank AI Metadata Analyzer",
+    "X-Title": "MetaSpark AI Metadata Analyzer",
   },
 });
 
@@ -28,37 +28,68 @@ export const FREE_MODELS = [
   "poolside/laguna-xs-2.1:free",
 ];
 
-// Index of the currently selected free model.
-let currentModelIndex = 0;
+/**
+ * Request-scoped model manager.
+ *
+ * The previous implementation used module-level mutable state
+ * (`currentModelIndex`), which is unsafe under concurrent requests: two
+ * simultaneous requests could advance each other's model index. This class
+ * keeps the fallback cursor local to a single request.
+ */
+export class ModelManager {
+  constructor(models = FREE_MODELS) {
+    this.models = models;
+    this.currentIndex = 0;
+  }
 
-// Get the current free model.
-export function getCurrentModel() {
-  return openrouter(FREE_MODELS[currentModelIndex]);
+  /** Get the model instance for the current index. */
+  getCurrentModel() {
+    return openrouter(this.models[this.currentIndex]);
+  }
+
+  /** Get the current model id string. */
+  getCurrentModelId() {
+    return this.models[this.currentIndex];
+  }
+
+  /**
+   * Advance to the next model. Returns true if a fallback was available,
+   * false if all models have been exhausted.
+   */
+  fallbackToNextModel() {
+    if (this.currentIndex < this.models.length - 1) {
+      this.currentIndex += 1;
+      return true;
+    }
+    return false;
+  }
+
+  /** Reset to the first model. */
+  reset() {
+    this.currentIndex = 0;
+  }
 }
 
-// Get a model by id.
+// Backwards-compatible helpers for callers that don't need request scoping.
+// These create a fresh manager per call so no shared mutable state exists.
+export function getCurrentModel() {
+  return new ModelManager().getCurrentModel();
+}
+
 export function getModel(modelId) {
   return openrouter(modelId);
 }
 
-// Advance to the next free model. Returns true if a fallback was available,
-// false if we've exhausted all models.
 export function fallbackToNextModel() {
-  if (currentModelIndex < FREE_MODELS.length - 1) {
-    currentModelIndex += 1;
-    return true;
-  }
-  return false;
+  return new ModelManager().fallbackToNextModel();
 }
 
-// Reset to the first free model.
 export function resetModel() {
-  currentModelIndex = 0;
+  // No-op: model state is now request-scoped.
 }
 
-// Get the current model id string.
 export function getCurrentModelId() {
-  return FREE_MODELS[currentModelIndex];
+  return new ModelManager().getCurrentModelId();
 }
 
 export default openrouter;

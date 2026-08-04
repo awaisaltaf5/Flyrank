@@ -1,32 +1,11 @@
 import { streamText, generateText, convertToModelMessages } from "ai";
-import {
-  getCurrentModel,
-  getCurrentModelId,
-  fallbackToNextModel,
-  resetModel,
-  FREE_MODELS,
-} from "@/lib/ai";
+import { ModelManager, FREE_MODELS } from "@/lib/ai";
 import { tools } from "@/lib/tools";
 import { categorizeError, getFriendlyErrorMessage } from "@/lib/error-utils";
+import { SYSTEM_PROMPT } from "@/lib/prompts";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
-
-const SYSTEM_PROMPT = `You are FlyRank AI, a website metadata analyzer assistant.
-
-Your primary job is to help users analyze website metadata. When a user gives you a
-URL (or asks you to analyze a website), you MUST ALWAYS use the analyzeWebsite tool
-to fetch the page and extract its metadata. Even if you have analyzed the same URL
-before in this conversation, you must call the tool again to get fresh data.
-
-CRITICAL RULE: When a URL is provided, do NOT answer from memory. ALWAYS call the
-analyzeWebsite tool first, then present the tool results in a clear summary.
-
-After receiving the tool results, present the findings in a clear, friendly summary.
-If the tool returns an error, explain what went wrong and suggest possible fixes.
-
-If the user asks a general question (not about analyzing a website), answer
-helpfully and concisely.`;
 
 /**
  * Build a sanitised JSON error response so that internal details, API keys,
@@ -41,6 +20,18 @@ function jsonErrorResponse(message, status = 500, code = "unknown") {
 
 export async function POST(req) {
   try {
+    // ── Environment validation: fail fast if the API key is missing ───────
+    if (!process.env.OPENROUTER_API_KEY) {
+      console.error(
+        "POST /api/chat: OPENROUTER_API_KEY is not set. Add it to .env.local",
+      );
+      return jsonErrorResponse(
+        "The AI service is not configured. Please contact the administrator.",
+        503,
+        "not-configured",
+      );
+    }
+
     const body = await req.json();
     const messages = body.messages;
 
@@ -71,16 +62,18 @@ export async function POST(req) {
       modelMessages = [];
     }
 
-    // ── Reset to the first free model at the start of each request ────────
-    resetModel();
+    // ── Request-scoped model manager ───────────────────────────────────────
+    // Each request gets its own ModelManager so concurrent requests never
+    // interfere with each other's fallback cursor.
+    const manager = new ModelManager(FREE_MODELS);
 
     // ── Find a working free model ─────────────────────────────────────────
     let workingModel = null;
     let workingModelId = null;
 
     for (let attempt = 0; attempt < FREE_MODELS.length; attempt++) {
-      const modelId = getCurrentModelId();
-      const model = getCurrentModel();
+      const modelId = manager.getCurrentModelId();
+      const model = manager.getCurrentModel();
 
       try {
         // Quick availability check with a minimal prompt.
@@ -106,7 +99,7 @@ export async function POST(req) {
           return jsonErrorResponse(categorised.message, 429, "rate-limit");
         }
 
-        if (!fallbackToNextModel()) {
+        if (!manager.fallbackToNextModel()) {
           break;
         }
       }
