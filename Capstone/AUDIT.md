@@ -1,4 +1,4 @@
-# Flyrank AI Website Metadata Analyzer — Accessibility & Performance Audit
+# MetaSpark AI Website Metadata Analyzer — Accessibility & Performance Audit
 
 ## 1. Accessibility Findings
 
