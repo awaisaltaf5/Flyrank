@@ -187,9 +187,9 @@ export const analyzeWebsiteTool = tool({
         );
       }
 
-      // ── Fetch with a 15-second timeout ────────────────────────────────────
+      // ── Fetch with a bounded timeout so serverless requests can finish ────
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
+      const timeout = setTimeout(() => controller.abort(), 8000);
 
       const response = await fetch(normalizedUrl, {
         signal: controller.signal,
@@ -347,7 +347,7 @@ export const analyzeWebsiteTool = tool({
       return buildErrorResult(
         url,
         error.name === "AbortError"
-          ? "Request timed out after 15 seconds. The website may be slow or unresponsive."
+          ? "Request timed out after 8 seconds. The website may be slow or unresponsive."
           : error.message || "Failed to fetch the website.",
       );
     }

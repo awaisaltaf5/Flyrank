@@ -1,5 +1,5 @@
-import { streamText, generateText, convertToModelMessages } from "ai";
-import { ModelManager, FREE_MODELS } from "@/lib/ai";
+import { streamText, convertToModelMessages } from "ai";
+import { getModel, FREE_MODELS } from "@/lib/ai";
 import { tools } from "@/lib/tools";
 import { categorizeError, getFriendlyErrorMessage } from "@/lib/error-utils";
 import { SYSTEM_PROMPT } from "@/lib/prompts";
@@ -62,66 +62,18 @@ export async function POST(req) {
       modelMessages = [];
     }
 
-    // ── Request-scoped model manager ───────────────────────────────────────
-    // Each request gets its own ModelManager so concurrent requests never
-    // interfere with each other's fallback cursor.
-    const manager = new ModelManager(FREE_MODELS);
+    // Start the real request immediately. Probing every fallback model first
+    // can consume the entire serverless function timeout before streaming.
+    const workingModelId = FREE_MODELS[0];
+    const workingModel = getModel(workingModelId);
 
-    // ── Find a working free model ─────────────────────────────────────────
-    let workingModel = null;
-    let workingModelId = null;
-
-    for (let attempt = 0; attempt < FREE_MODELS.length; attempt++) {
-      const modelId = manager.getCurrentModelId();
-      const model = manager.getCurrentModel();
-
-      try {
-        // Quick availability check with a minimal prompt.
-        await generateText({
-          model,
-          prompt: "Say OK",
-          maxOutputTokens: 5,
-        });
-        workingModel = model;
-        workingModelId = modelId;
-        console.log(`[Model: ${modelId}] available, starting stream...`);
-        break;
-      } catch (error) {
-        const categorised = categorizeError(error);
-        console.error(
-          `[Model: ${modelId}] unavailable:`,
-          error?.message || "Unknown error",
-        );
-
-        // If this is a rate-limit error, don't try other models —
-        // they will almost certainly be rate-limited too.
-        if (categorised.isRateLimit) {
-          return jsonErrorResponse(categorised.message, 429, "rate-limit");
-        }
-
-        if (!manager.fallbackToNextModel()) {
-          break;
-        }
-      }
-    }
-
-    // ── No working model found ────────────────────────────────────────────
-    if (!workingModel) {
-      console.error("All free models are unavailable.");
-      return jsonErrorResponse(
-        "Sorry, the AI models are temporarily unavailable. Please try again in a few minutes.",
-        503,
-        "service-unavailable",
-      );
-    }
-
-    // ── Stream with the working model ─────────────────────────────────────
     try {
       const result = streamText({
         model: workingModel,
         messages: modelMessages,
         tools,
-        maxSteps: 5,
+        maxSteps: 2,
+        maxOutputTokens: 700,
         system: SYSTEM_PROMPT,
         onError: (error) => {
           console.error(

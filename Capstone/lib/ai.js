@@ -16,7 +16,9 @@ const openrouter = createOpenAICompatible({
 // one if the current model is unavailable. These are currently available free
 // models on OpenRouter (verified via the /api/v1/models endpoint).
 export const FREE_MODELS = [
-  "openai/gpt-oss-20b:free",
+  "nvidia/nemotron-3.5-lightning:free",
+  "liquid/lfm-2.5-2.6b:free",
+  "thinkingmachines/inkling-small:free",
   "google/gemma-4-31b-it:free",
   "google/gemma-4-26b-a4b-it:free",
   "nvidia/nemotron-3-super-120b-a12b:free",
