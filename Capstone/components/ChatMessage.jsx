@@ -1,6 +1,8 @@
 "use client";
 
 import { isTextUIPart, isToolUIPart } from "ai";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ToolInvocation from "./ToolInvocation";
 import Icon from "@/components/Icons";
 
@@ -75,9 +77,52 @@ export default function ChatMessage({ message }) {
                 return (
                   <div
                     key={`${message.id}-text-${index}`}
-                    className="rounded-2xl rounded-bl-md bg-gray-50 dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] text-gray-800 dark:text-gray-200 px-4 py-3 text-sm leading-relaxed break-words whitespace-pre-wrap"
+                    className="rounded-2xl rounded-bl-md bg-gray-50 dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] text-gray-800 dark:text-gray-200 px-4 py-3 text-sm leading-relaxed break-words"
                   >
-                    {text}
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h1: ({ node, ...props }) => (
+                          <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100 mt-3 mb-2 first:mt-0" {...props} />
+                        ),
+                        h2: ({ node, ...props }) => (
+                          <h2 className="text-base font-bold text-gray-900 dark:text-gray-100 mt-4 mb-2 pb-1 border-b border-gray-200 dark:border-[#2a2a2a] first:mt-0" {...props} />
+                        ),
+                        h3: ({ node, ...props }) => (
+                          <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mt-3 mb-1 first:mt-0" {...props} />
+                        ),
+                        p: ({ node, ...props }) => (
+                          <p className="mb-2 last:mb-0" {...props} />
+                        ),
+                        ul: ({ node, ...props }) => (
+                          <ul className="ml-4 mb-2 space-y-1" {...props} />
+                        ),
+                        ol: ({ node, ...props }) => (
+                          <ol className="ml-5 mb-2 space-y-1" {...props} />
+                        ),
+                        li: ({ node, ...props }) => (
+                          <li className="leading-relaxed" {...props} />
+                        ),
+                        strong: ({ node, ...props }) => (
+                          <strong className="font-bold text-gray-900 dark:text-gray-50" {...props} />
+                        ),
+                        code: ({ node, inline, ...props }) => {
+                          if (inline) {
+                            return (
+                              <code className="bg-gray-200 dark:bg-[#2a2a2a] text-xs px-1.5 py-0.5 rounded break-words" {...props} />
+                            );
+                          }
+                          return (
+                            <code className="block bg-gray-200 dark:bg-[#2a2a2a] text-xs p-2 rounded break-words whitespace-pre-wrap" {...props} />
+                          );
+                        },
+                        blockquote: ({ node, ...props }) => (
+                          <blockquote className="border-l-2 border-primary-500 pl-3 italic my-2" {...props} />
+                        ),
+                      }}
+                    >
+                      {text}
+                    </ReactMarkdown>
                   </div>
                 );
               })}

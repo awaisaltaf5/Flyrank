@@ -7,7 +7,7 @@ export const metadata = {
   keywords: [
     "AI",
     "metadata analyzer",
-    "OpenRouter",
+        "Groq",
     "Vercel AI SDK",
     "website analysis",
     "SEO",

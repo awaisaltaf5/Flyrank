@@ -1,33 +1,33 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-// OpenRouter is OpenAI-compatible. The API key is read ONLY from
-// process.env.OPENROUTER_API_KEY - never hardcoded.
-const openrouter = createOpenAICompatible({
-  name: "openrouter",
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-  headers: {
-    "HTTP-Referer": "http://localhost:3000",
-    "X-Title": "MetaSpark AI Metadata Analyzer",
-  },
+/**
+ * Groq is OpenAI-compatible. The API key is read ONLY from
+ * process.env.GROQ_API_KEY - never hardcoded.
+ *
+ * Groq's API endpoint: https://api.groq.com/openai/v1
+ */
+const groq = createOpenAICompatible({
+  name: "groq",
+  baseURL: "https://api.groq.com/openai/v1",
+  apiKey: process.env.GROQ_API_KEY,
 });
 
-// Free models on OpenRouter. We try them in order and fall back to the next
-// one if the current model is unavailable. These are currently available free
-// models on OpenRouter (verified via the /api/v1/models endpoint).
+/**
+ * Models available on Groq.
+ *
+ * We try them in order and fall back to the next one if the current
+ * model is unavailable or rate-limited. All models below are real Groq
+ * hosted models (not the ":free" variants from other providers).
+ *
+ * Order: most capable / preferred first.
+ */
 export const FREE_MODELS = [
-  "nvidia/nemotron-3.5-lightning:free",
-  "liquid/lfm-2.5-2.6b:free",
-  "thinkingmachines/inkling-small:free",
-  "google/gemma-4-31b-it:free",
-  "google/gemma-4-26b-a4b-it:free",
-  "nvidia/nemotron-3-super-120b-a12b:free",
-  "nvidia/nemotron-3-ultra-550b-a55b:free",
-  "nvidia/nemotron-3-nano-30b-a3b:free",
-  "nvidia/nemotron-nano-9b-v2:free",
-  "inclusionai/ling-3.0-flash:free",
-  "poolside/laguna-s-2.1:free",
-  "poolside/laguna-xs-2.1:free",
+  "qwen/qwen3.8-27b",
+  "qwen/qwen3.6-27b",
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "groq/compound",
+  "groq/compound-mini",
 ];
 
 /**
@@ -46,7 +46,7 @@ export class ModelManager {
 
   /** Get the model instance for the current index. */
   getCurrentModel() {
-    return openrouter(this.models[this.currentIndex]);
+    return groq(this.models[this.currentIndex]);
   }
 
   /** Get the current model id string. */
@@ -79,7 +79,7 @@ export function getCurrentModel() {
 }
 
 export function getModel(modelId) {
-  return openrouter(modelId);
+  return groq(modelId);
 }
 
 export function fallbackToNextModel() {
@@ -94,4 +94,4 @@ export function getCurrentModelId() {
   return new ModelManager().getCurrentModelId();
 }
 
-export default openrouter;
+export default groq;

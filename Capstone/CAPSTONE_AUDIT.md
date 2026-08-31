@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-02  
 **Project:** MetaSpark AI — AI-powered Website Metadata Analyzer  
-**Stack:** Next.js 14, Vercel AI SDK v7, OpenRouter, Tailwind CSS, Zod
+**Stack:** Next.js 14, Vercel AI SDK v7, Groq, Tailwind CSS, Zod
 
 ---
 
@@ -10,11 +10,11 @@
 
 ### Core Functionality
 - **AI Chat Interface:** Fully functional conversational UI inspired by ChatGPT/Claude
-- **OpenRouter Integration:** Properly configured via `@ai-sdk/openai-compatible` with environment-based API key
+- **Groq Integration:** Properly configured via `@ai-sdk/openai-compatible` with environment-based API key
 - **Streaming Responses:** Real-time streaming AI responses using `streamText` from Vercel AI SDK
 - **Tool Calling:** Server-side `analyzeWebsite` tool with Zod schema validation
 - **Website Analysis:** Fetches URLs, extracts title, meta description, OG tags, favicon, HTTP status
-- **Multi-Model Fallback:** Automatic fallback across 10 free OpenRouter models with rate-limit detection
+- **Multi-Model Fallback:** Automatic fallback across 10 free Groq models with rate-limit detection
 - **Error Handling:** Comprehensive error categorization (network, auth, rate-limit, API) with safe user-facing messages
 
 ### UI/UX
@@ -64,11 +64,11 @@
 ### Documentation
 - **README is demo-focused:** Missing architecture diagrams, API reference, contributing guide depth
 - **No inline code documentation:** JSDoc comments absent for complex logic
-- **No deployment guide specifics:** Vercel env vars, OpenRouter setup steps could be clearer
+- **No deployment guide specifics:** Vercel env vars, Groq setup steps could be clearer
 
 ### DevOps
 - **No CI/CD:** Missing GitHub Actions or similar pipeline
-- **No environment validation:** App doesn't validate `OPENROUTER_API_KEY` at startup
+- **No environment validation:** App doesn't validate `GROQ_API_KEY` at startup
 - **No health check endpoint:** Can't verify API status without hitting chat endpoint
 
 ---
@@ -88,7 +88,7 @@
 ### Architecture
 - **Model selection logic:** `lib/ai.js` uses module-level mutable state (`currentModelIndex`); could be request-scoped
 - **System prompt:** Hardcoded in route.js; could be externalized to config
-- **Constants:** FREE_MODELS list is hardcoded; could be fetched from OpenRouter API dynamically
+- **Constants:** FREE_MODELS list is hardcoded; could be fetched from Groq API dynamically
 
 ### Security
 - **API key in .env.local:** Present in repo file (should be gitignored, which it is, but README shows placeholder)
@@ -137,7 +137,7 @@
 20. **Add URL validation:** Block internal/private IP ranges in `analyzeWebsite`
 21. **Implement request rate limiting:** Per-IP limits on `/api/chat`
 22. **Add CSP headers:** Via Next.js headers config
-23. **Validate env at startup:** Fail fast if `OPENROUTER_API_KEY` is missing
+23. **Validate env at startup:** Fail fast if `GROQ_API_KEY` is missing
 
 ### Phase 7: DevOps (Lower Priority)
 24. **Add CI/CD:** GitHub Actions for lint, test, build on PR

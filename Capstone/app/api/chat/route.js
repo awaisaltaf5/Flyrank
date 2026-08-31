@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages } from "ai";
+import { streamText, convertToModelMessages, stepCountIs } from "ai";
 import { getModel, FREE_MODELS } from "@/lib/ai";
 import { tools } from "@/lib/tools";
 import { categorizeError, getFriendlyErrorMessage } from "@/lib/error-utils";
@@ -21,9 +21,9 @@ function jsonErrorResponse(message, status = 500, code = "unknown") {
 export async function POST(req) {
   try {
     // ── Environment validation: fail fast if the API key is missing ───────
-    if (!process.env.OPENROUTER_API_KEY) {
+    if (!process.env.GROQ_API_KEY) {
       console.error(
-        "POST /api/chat: OPENROUTER_API_KEY is not set. Add it to .env.local",
+        "POST /api/chat: GROQ_API_KEY is not set. Add it to .env.local",
       );
       return jsonErrorResponse(
         "The AI service is not configured. Please contact the administrator.",
@@ -72,8 +72,8 @@ export async function POST(req) {
         model: workingModel,
         messages: modelMessages,
         tools,
-        maxSteps: 2,
-        maxOutputTokens: 700,
+        stopWhen: stepCountIs(4),
+        maxOutputTokens: 1200,
         system: SYSTEM_PROMPT,
         onError: (error) => {
           console.error(

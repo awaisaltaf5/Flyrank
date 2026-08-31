@@ -1,6 +1,6 @@
 # MetaSpark AI — Website Metadata Analyzer
 
-A production-ready **AI-powered Website Metadata Analyzer** built with **Next.js 14**, **Vercel AI SDK**, and **OpenRouter**. Simply enter any website URL and let the AI fetch, analyze, and summarize the website's metadata in real time through a modern conversational interface.
+A production-ready **AI-powered Website Metadata Analyzer** built with **Next.js 14**, **Vercel AI SDK**, and **Groq**. Simply enter any website URL and let the AI fetch, analyze, and summarize the website's metadata in real time through a modern conversational interface.
 
 🌐 **Live Demo:** https://metaspark-ai.vercel.app/
 
@@ -39,7 +39,7 @@ Website metadata directly impacts how content appears across search engines and 
 - Streaming AI responses in a conversational UI
 - Server-side data fetching with proper error handling
 - Accessible, responsive design patterns
-- Production-ready deployment on Vercel with OpenRouter
+- Production-ready deployment on Vercel with Groq
 
 ---
 
@@ -61,7 +61,7 @@ Website metadata directly impacts how content appears across search engines and 
   - Content type
 - ⚡ Real-time AI streaming responses
 - 🛠️ Server-side tool calling with Zod validation
-- 🔄 Automatic fallback between OpenRouter models
+- 🔄 Automatic fallback between Groq models
 - 🌙 Dark mode with system preference detection
 - 📱 Fully responsive UI
 - ⬇️ Smart auto-scroll with "Jump to Latest"
@@ -78,7 +78,7 @@ Website metadata directly impacts how content appears across search engines and 
 - Vercel AI SDK v7
 - @ai-sdk/react
 - @ai-sdk/openai-compatible
-- OpenRouter
+- Groq
 - Tailwind CSS
 - Zod
 - JavaScript (ES6+)
@@ -101,7 +101,7 @@ Website metadata directly impacts how content appears across search engines and 
                                                    │
                                                    ▼
                                             ┌─────────────┐
-                                            │ OpenRouter  │
+                                            │ Groq  │
                                             │    LLM      │
                                             └─────────────┘
 ```
@@ -176,7 +176,7 @@ Website metadata directly impacts how content appears across search engines and 
 
 - Node.js 22+
 - npm (or pnpm / yarn)
-- OpenRouter API Key
+- Groq API Key
 
 ### Installation
 
@@ -195,7 +195,7 @@ npm install
 Create `.env.local`
 
 ```env
-OPENROUTER_API_KEY=your_openrouter_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 > Never commit API keys.
@@ -220,7 +220,7 @@ npm test
 
 # 12. AI Integration
 
-MetaSpark AI uses the **Vercel AI SDK** together with **OpenRouter** to stream conversational responses.
+MetaSpark AI uses the **Vercel AI SDK** together with **Groq** to stream conversational responses.
 
 The SDK manages:
 
@@ -232,9 +232,9 @@ The SDK manages:
 
 ---
 
-# 13. OpenRouter Integration
+# 13. Groq Integration
 
-OpenRouter provides access to multiple LLMs through one API.
+Groq provides fast access to multiple LLMs through one API.
 
 The application:
 
@@ -380,7 +380,7 @@ Production First Load JS
 3. Add
 
 ```
-OPENROUTER_API_KEY
+GROQ_API_KEY
 ```
 
 4. Deploy.
@@ -391,7 +391,7 @@ OPENROUTER_API_KEY
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| OPENROUTER_API_KEY | Yes | OpenRouter API key |
+| GROQ_API_KEY | Yes | Groq API key |
 
 ---
 
@@ -427,7 +427,7 @@ OPENROUTER_API_KEY
 ## Requirements
 
 - Node.js 22+
-- OpenRouter API Key
+- Groq API Key
 
 ## Clone
 
@@ -442,7 +442,7 @@ npm install
 Create
 
 ```env
-OPENROUTER_API_KEY=your_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 Run
@@ -495,7 +495,7 @@ LinkedIn: https://www.linkedin.com/in/awaisaltaf5/
 
 # 🙏 Acknowledgements
 
-- OpenRouter
+- Groq
 - Vercel AI SDK
 - Next.js
 - React
@@ -510,6 +510,7 @@ LinkedIn: https://www.linkedin.com/in/awaisaltaf5/
 
 ### AI-powered Website Metadata Analyzer
 
-Built with ❤️ using Next.js, Vercel AI SDK & OpenRouter
+Built with ❤️ using Next.js, Vercel AI SDK & Groq
 
 </div>
+

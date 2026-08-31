@@ -11,9 +11,9 @@
 
 // ── Sensitive patterns that must never reach the user ───────────────────────
 
-// Matches common API-key formats (OpenRouter, OpenAI, Anthropic, etc.)
+// Matches common API-key formats (Groq, OpenAI, Anthropic, etc.)
 const API_KEY_REGEX =
-  /(?:sk-[a-zA-Z0-9-]{20,}|key_[a-zA-Z0-9-]{20,}|Bearer\s+[a-zA-Z0-9-_.]+)/g;
+  /(?:sk-[a-zA-Z0-9-]{20,}|gsk-[a-zA-Z0-9-]{20,}|key_[a-zA-Z0-9-]{20,}|Bearer\s+[a-zA-Z0-9-_.]+)/g;
 
 // Matches anything that looks like a full HTTP request/response snippet
 const RAW_HTTP_REGEX =

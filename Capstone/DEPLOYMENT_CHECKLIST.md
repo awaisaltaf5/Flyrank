@@ -21,10 +21,10 @@ Production environment variables must be set in the hosting platform.
 
 | Variable | Required | Where Used |
 |----------|----------|-------------|
-| `OPENROUTER_API_KEY` | Yes | Server-side only (`app/api/chat/route.js`) |
+| `GROQ_API_KEY` | Yes | Server-side only (`app/api/chat/route.js`) |
 
 Vercel:
-- Project Settings → Environment Variables → Add `OPENROUTER_API_KEY`
+- Project Settings → Environment Variables → Add `GROQ_API_KEY`
 - Mark as **Secret** and **Production** + **Preview** environments
 
 ## 3. Build Verification
@@ -40,7 +40,7 @@ Vercel:
 
 - [ ] `.env.local` is ignored by Git
 - [ ] No API keys, tokens, or passwords in committed files
-- [ ] `OPENROUTER_API_KEY` is never exposed to the browser
+- [ ] `GROQ_API_KEY` is never exposed to the browser
 - [ ] SSRF protection is active (`lib/url-security.js`)
 - [ ] Tool input is validated with Zod (`lib/tools.js`)
 - [ ] Error messages do not leak sensitive internal details
@@ -81,7 +81,7 @@ Vercel:
 - [ ] Test retry behavior on failure
 - [ ] Test dark mode toggle
 - [ ] Test on mobile viewport (375px)
-- [ ] Verify OpenRouter streaming works with production API key
+- [ ] Verify Groq streaming works with production API key
 
 ## 8. Rollback Procedure
 
@@ -113,7 +113,7 @@ npm start
 # Environment Variables Reference
 
 ```env
-OPENROUTER_API_KEY=your_openrouter_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 # Support
