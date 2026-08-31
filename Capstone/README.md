@@ -78,7 +78,7 @@ Website metadata directly impacts how content appears across search engines and 
 - Vercel AI SDK v7
 - @ai-sdk/react
 - @ai-sdk/openai-compatible
-- Groq
+- Groq (API: gsk_...Vgb)
 - Tailwind CSS
 - Zod
 - JavaScript (ES6+)
@@ -375,12 +375,14 @@ Production First Load JS
 
 ## Vercel
 
+**Live Demo:** https://metaspark-ai.vercel.app/
+
 1. Push repository to GitHub.
 2. Import into Vercel.
-3. Add
+3. Add environment variable:
 
 ```
-GROQ_API_KEY
+GROQ_API_KEY=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
 ```
 
 4. Deploy.
