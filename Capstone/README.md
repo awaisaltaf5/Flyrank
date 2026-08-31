@@ -379,10 +379,10 @@ Production First Load JS
 
 1. Push repository to GitHub.
 2. Import into Vercel.
-3. Add environment variable:
+3. Add environment variable (get your key from [Groq Console](https://console.groq.com/keys)):
 
 ```
-GROQ_API_KEY=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
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 4. Deploy.
